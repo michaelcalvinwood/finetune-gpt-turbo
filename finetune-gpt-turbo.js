@@ -22,9 +22,10 @@ async function convertCsvToOutput (csv) {
     for (let i = 0; i < parsed.length; ++i) {
         const entry = parsed[i];
         const text = entry[5];
+        if (text.length < 128) continue;
         const standardized = await ai.rewriteAsNewsArticle(text);
         console.log('standardized', standardized)
-        if (i > 0) break;
+        if (i > 3) break;
     }
 }
 
