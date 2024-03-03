@@ -30,15 +30,15 @@ async function convertCsvToOutput (csv) {
     const parsed = papa.parse(csv).data;
     for (let i = 0; i < parsed.length; ++i) {
         const entry = parsed[i];
+        //console.log(entry);
         const text = entry[5];
         if (text.length < 128) continue;
-        const cleaned = cleanText(text);
-        console.log(cleaned);
-        if (i > 3) break;
-        continue;
         const standardized = await ai.rewriteAsNewsArticle(text);
-        console.log('standardized', standardized)
-        if (i > 3) break;
+        //console.log('standardized', standardized);
+        const q = `INSERT INTO gpt_3_turbo (raw_input) VALUES (${mysql.escape(standardized)})`;
+        const r = await mysql.query(q);
+        console.log(i);
+        if (i > 2500) break;
     }
 }
 
