@@ -1,6 +1,6 @@
 // openai 4 migration guide: https://chat.openai.com/share/b175130a-0d77-465e-8187-59b92590df8b
 
-const debug = true;
+const debug = false;
 
 require('dotenv').config();
 
