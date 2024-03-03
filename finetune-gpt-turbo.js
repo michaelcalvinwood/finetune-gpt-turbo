@@ -2,6 +2,7 @@
 const axios = require('axios');
 const papa = require("papaparse");
 
+const ai = require('./utils/ai')
 const mysql = require('./utils/mysql');
 
 const dataUrl = `https://www.michaelcalvinwood.net/datasets/text-data/NewsArticles.csv`;
@@ -16,14 +17,14 @@ async function getCsv (url) {
     }
 }
 
-function convertCsvToOutput (csv) {
+async function convertCsvToOutput (csv) {
     const parsed = papa.parse(csv).data;
-    console.log('parsed', parsed);
     for (let i = 0; i < parsed.length; ++i) {
         const entry = parsed[i];
-        const text = entry.replaceAll()
-        console.log(entry[5]);
-        if (i > 3) break;
+        const text = entry[5];
+        const standardized = await ai.rewriteAsNewsArticle(text);
+        console.log('standardized', standardized)
+        if (i > 0) break;
     }
 }
 
@@ -32,11 +33,8 @@ function convertCsvToOutput (csv) {
 
 
 const test = async () => {
-    const rows = await mysql.query('SHOW DATABASES');
-    console.log(rows);
-    return;
 
     const csv = await getCsv(dataUrl);
-    convertCsvToOutput(csv);
+    const output = await convertCsvToOutput(csv);
 }
 test();

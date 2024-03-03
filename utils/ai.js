@@ -221,7 +221,7 @@ exports.rewriteAsNewsArticle = async (text) => {
     const numTextWords = text.split(' ').length;
     const numResponseWords = Math.floor(.9 * numTextWords);
 
-    const prompt = `'''Rewrite the following Document in the format of a news article. Use simple terms and sentences. The response must be at least ${numResponseWords} words.
+    const prompt = `'''Rewrite the following Document in the format of a news article. Use simple terms and sentences. The response must be at least ${numResponseWords} words. Preserve all quotes.
     
     Document:
     ${text}'''`
